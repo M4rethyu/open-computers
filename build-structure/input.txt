@@ -1,0 +1,19 @@
+minecraft:air minecraft:air minecraft:air minecraft:air
+minecraft:air minecraft:stone minecraft:stone minecraft:air
+minecraft:air minecraft:stone minecraft:stone minecraft:air
+minecraft:air minecraft:air minecraft:air minecraft:air
+
+minecraft:air minecraft:stone minecraft:stone minecraft:air
+minecraft:stone minecraft:stone minecraft:stone minecraft:stone
+minecraft:stone minecraft:stone minecraft:stone minecraft:stone
+minecraft:air minecraft:stone minecraft:stone minecraft:air
+
+minecraft:air minecraft:stone minecraft:stone minecraft:air
+minecraft:stone minecraft:stone minecraft:stone minecraft:stone
+minecraft:stone minecraft:stone minecraft:stone minecraft:stone
+minecraft:air minecraft:stone minecraft:stone minecraft:air
+
+minecraft:air minecraft:air minecraft:air minecraft:air
+minecraft:air minecraft:stone minecraft:stone minecraft:air
+minecraft:air minecraft:stone minecraft:stone minecraft:air
+minecraft:air minecraft:air minecraft:air minecraft:air
