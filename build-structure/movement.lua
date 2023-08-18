@@ -1,6 +1,4 @@
 local robot_api = require("robot")
-local gps
---pcall(function() gps = require("gps") end)
 
 
 local movement = {}
@@ -42,10 +40,6 @@ function movement.setPose(x, y, z, dir) -- all parameters optional, use nil to o
     pose.dir = dir or pose.dir
 end
 
-if gps then
-    local gps_pose = gps.position()
-    movement.setPose(gps_pose.x, gps_pose.y, gps_pose.z, gps_pose.dir)
-end
 
 -- wrappers for built in turning functions of robots to track orientation
 function movement.turnLeft()
