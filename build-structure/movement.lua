@@ -153,7 +153,7 @@ end
 
 -- higher order movement function to move directly to target coordinates
 function movement.moveTo(target_x, target_y, target_z)
-    while(movement.pose.x ~= target_x and movement.pose.y ~= target_y and movement.pose.z ~= target_z) do
+    while(movement.pose.x ~= target_x) and (movement.pose.y ~= target_y) and (movement.pose.z ~= target_z) do
         --[==[
         -- only one move per iteration; check if move necessary, then do it; skip all other elseif, because one was true
         if     movement.pose.y < target_y and movement.move(movement.DIRECTION.UP)    then -- try moving up first (if necessary)
