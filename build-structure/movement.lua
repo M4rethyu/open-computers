@@ -168,3 +168,5 @@ function movement.moveTo(target_x, target_y, target_z)
 end
 
 return movement
+
+print("movement loaded")
