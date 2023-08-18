@@ -73,11 +73,11 @@ end
 function movement.turnTo(target_facing)
   local diff_facing = (target_facing - movement.pose.dir)%4
   if diff_facing == 1 then
-    movement.turnLeft()
+    movement.turnRight()
   elseif diff_facing == 2 then
     movement.turnAround()
   elseif diff_facing == 3 then
-    movement.turnRight()
+    movement.turnLeft()
   end
 end
 
