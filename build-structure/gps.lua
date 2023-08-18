@@ -17,7 +17,7 @@ function gps.position()
         local waypoint_x, waypoint_y, waypoint_z = string.match(wp.label, "^(%d+) (%d+) (%d+)$")
         print(waypoint_x)
         print(waypoint_y)
-        print(waypoint_z)
+        print(waypoint_z)--
         --[[
         local waypoint_x, waypoint_y, waypoint_z = string.match(wp.label, "^(%d+) (%d+) (%d+)$")
         if waypoint_x and waypoint_y and waypoint_z then -- make sure waypoint label matches gps pattern
