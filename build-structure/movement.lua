@@ -153,8 +153,7 @@ end
 
 -- higher order movement function to move directly to target coordinates
 function movement.moveTo(target_x, target_y, target_z)
-    while(movement.pose.x ~= target_x) and (movement.pose.y ~= target_y) and (movement.pose.z ~= target_z) do
-        --[==[
+    while (movement.pose.x ~= target_x) or (movement.pose.y ~= target_y) or (movement.pose.z ~= target_z) do
         -- only one move per iteration; check if move necessary, then do it; skip all other elseif, because one was true
         if     movement.pose.y < target_y and movement.move(movement.DIRECTION.UP)    then -- try moving up first (if necessary)
         elseif movement.pose.x < target_x and movement.move(movement.DIRECTION.EAST)  then -- then try moving horizontally (if necessary)
@@ -164,47 +163,7 @@ function movement.moveTo(target_x, target_y, target_z)
         elseif movement.pose.y > target_y and movement.move(movement.DIRECTION.DOWN)  then -- then try moving down (if necessary)
         else return false -- target not reached but all possible moves blocked
         end
-    end
     return true -- target reached (because condition of while loop is false
-    ]==]
-        if movement.pose.y < target_y then -- try moving up first (if necessary)
-            if movement.move(movement.DIRECTION.UP) then
-                -- successful
-            else
-                if movement.pose.x < target_x then -- then try moving horizontally (if necessary)
-                    if movement.move(movement.DIRECTION.EAST) then
-                        -- successful
-                    else
-                        if movement.pose.x > target_x then
-                            if movement.move(movement.DIRECTION.WEST) then
-                                -- successful
-                            else
-                                if movement.pose.z < target_z then
-                                    if movement.move(movement.DIRECTION.SOUTH) then
-                                        -- successful
-                                    else
-                                        if movement.pose.z > target_z then
-                                            if movement.move(movement.DIRECTION.NORTH) then
-                                                -- successful
-                                            else
-                                                if movement.pose.y > target_y then -- then try moving down (if necessary)
-                                                    if movement.move(movement.DIRECTION.DOWN) then
-                                                        -- successful
-                                                    else
-                                                        return false -- target not reached but all possible moves blocked
-                                                    end
-                                                end
-                                            end
-                                        end
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-        end
-        return true -- target reached (because condition of while loop is false
     end
 end
 
