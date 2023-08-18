@@ -15,6 +15,11 @@ function gps.position()
     local wps = navigation.findWaypoints(1000) -- arg = range to search in. 1000 should cover loaded chunks
     for _, wp in ipairs(wps) do
         local waypoint_x, waypoint_y, waypoint_z = string.match(wp.label, "^(%d+) (%d+) (%d+)$")
+        print(waypoint_x)
+        print(waypoint_y)
+        print(waypoint_z)
+        --[[
+        local waypoint_x, waypoint_y, waypoint_z = string.match(wp.label, "^(%d+) (%d+) (%d+)$")
         if waypoint_x and waypoint_y and waypoint_z then -- make sure waypoint label matches gps pattern
             -- waypoint.position (relative) is from view of the robot, ie. robot + wp.position = waypoint
             local robot_x = tonumber(waypoint_x) - wp.position[1]
@@ -37,7 +42,7 @@ function gps.position()
             }
 
             return pose
-        end
+        end]]
     end
     return nil -- no matching waypoint found, so position returned
 end
