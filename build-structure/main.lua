@@ -38,7 +38,7 @@ direction = {
 x = 91
 y = 68
 z = 269
-facing = direction.east
+repl = direction.east
 
 
 
@@ -47,17 +47,17 @@ local component = require("component")
 local robot_component = component.robot
 
 function turn_to(target_facing)
-  local diff_facing = (target_facing - facing)%4
+  local diff_facing = (target_facing - repl)%4
   if diff_facing == 1 then
     robot_api.turnLeft()
-    facing = (facing - 1)%4
+    repl = (repl - 1)%4
   elseif diff_facing == 2 then
     robot_api.turnLeft()
     robot_api.turnLeft()
-    facing = (facing - 2)%4
+    repl = (repl - 2)%4
   elseif diff_facing == 3 then
     robot_api.turnRight()
-    facing = (facing + 1)%4
+    repl = (repl + 1)%4
   end
 end
 
