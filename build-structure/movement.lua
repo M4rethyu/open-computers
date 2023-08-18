@@ -163,8 +163,8 @@ function movement.moveTo(target_x, target_y, target_z)
         elseif movement.pose.y > target_y and movement.move(movement.DIRECTION.DOWN)  then -- then try moving down (if necessary)
         else return false -- target not reached but all possible moves blocked
         end
-    return true -- target reached (because condition of while loop is false
     end
+    return true -- target reached (because condition of while loop is false
 end
 
 return movement
