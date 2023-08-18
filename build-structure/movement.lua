@@ -143,6 +143,7 @@ end
 function movement.move(direction) -- direction must be [0-5] (see movement.DIRECTION)
     if movement.DIRECTION.NORTH <= direction and direction <= movement.DIRECTION.WEST then -- horizontal movement
         movement.turnTo(direction)
+        movement.forward()
     elseif direction == movement.DIRECTION.UP then -- vertical movement (up)
         movement.up()
     elseif direction == movement.DIRECTION.DOWN then -- vertical movement (down)
