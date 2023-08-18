@@ -1,6 +1,6 @@
 local robot_api = require("robot")
 local gps
-pcall(function() gps = require("gps") end)
+--pcall(function() gps = require("gps") end)
 
 
 local movement = {}
