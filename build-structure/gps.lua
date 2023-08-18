@@ -13,7 +13,8 @@ local gps = {}
 
 function gps.position()
     local wps = navigation.findWaypoints(1000) -- arg = range to search in. 1000 should cover loaded chunks
-    print(wps)
+    print("====")
+    print("wps"..tostring(wps))
     --[[
     for _, wp in ipairs(wps) do
         local waypoint_x, waypoint_y, waypoint_z = string.match(wp.label, "^(%d+) (%d+) (%d+)$")
