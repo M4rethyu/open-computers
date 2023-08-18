@@ -9,7 +9,7 @@ if navigation == nil then
 end
 
 
-local gps
+local gps = {}
 
 function gps.position()
     local wps = navigation.findWaypoints(1000) -- arg = range to search in. 1000 should cover loaded chunks
