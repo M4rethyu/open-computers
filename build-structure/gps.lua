@@ -11,6 +11,10 @@ end
 
 local gps = {}
 
+function gps.abc()
+    print("==== HELLO WOW THIS IS WORKING AMAZING ====")
+end
+
 function gps.position()
     local wps = navigation.findWaypoints(1000) -- arg = range to search in. 1000 should cover loaded chunks
     print("====")
