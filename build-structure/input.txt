@@ -1,3 +1,5 @@
+metadata:x=4,y=4,z=4
+
 minecraft:air minecraft:air minecraft:air minecraft:air
 minecraft:air minecraft:stone minecraft:stone minecraft:air
 minecraft:air minecraft:stone minecraft:stone minecraft:air
