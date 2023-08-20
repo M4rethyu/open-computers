@@ -83,12 +83,21 @@ local function readFileHeader()
 end
 
 
-function builder.build(x, y, z, y_offset) -- skip all layers until layer start_y (0 indexed)
+function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layers until layer start_y (0 indexed)
+    assert(type(x_anchor) == "number", "error: x must be an integer")
+    x_anchor = math.floor(x_anchor)
+    assert(type(y_anchor) == "number", "error: y must be an integer")
+    y_anchor = math.floor(y_anchor)
+    assert(type(z_anchor) == "number", "error: z must be an integer")
+    z_anchor = math.floor(z_anchor)
     y_offset = y_offset or 0
+
 
     local meta_data, block_data = readFileHeader()
     if not (meta_data and block_data) then return false end
+    assert(y_offset < meta_data.span_y, "y_offset must be smaller than height (span_y) of structure")
 
+    -- open file in binary read mode
     local file = assert(io.open(file_path, "rb"))
     -- skip header lines
     file:read("*line")
@@ -96,33 +105,58 @@ function builder.build(x, y, z, y_offset) -- skip all layers until layer start_y
 
     local file_index = 0 -- start indexing after header lines
     local num_bytes = meta_data.span_x*meta_data.span_z -- number of bytes per x-z-plane / y-level (one byte per block)
-    for i = 0, y_offset do
 
+    -- compensate for y_offset by skipping bytes in file and adjusting y
+    for i = 1, y_offset do
+        file:read(num_bytes)
     end
+    y_anchor = y_anchor + y_offset
 
 
-    local function buildLayer(yLevel)
-
-    end
+    local x, y, z = 0, y_offset, 0
 
 
+    -- read layer from bytes in file
+    local layer = {} -- x-z-layer
+    local line = {}  -- x-line
     local bytes = file:read(num_bytes)
-    local line = ""
+    local i = 0 -- count bytes, make new x-line after span_x bytes
+    local first_non_zero -- remember first_non_zero element as starting point for placing blocks <-TODO
     for b in string.gfind(bytes, ".") do
-        line = line..string.format("%02X ", string.byte(b))
-        if string.len(line) >= 12 then
-            print(line)
-            line = ""
+        table.insert(line, string.byte(b))
+        i = i + 1
+        if i == meta_data.span_x then
+            table.insert(layer, line)
+            line = {}
+            i = 0
         end
     end
 
+    for _, line in ipairs(layer) do
+        for _, n in ipairs(line) do
+            io.write(tostring(n).." ")
+        end
+        io.write("\n")
+    end
+
+    local block
+    for z, line in ipairs(layer) do
+        z = z - 1
+        for x, n in ipairs(line) do
+            x = x - 1
+            block = block_data[n]
+            -- todo: move to (x, y+1, z) and place block below
+            print(string.format("placing block '%s' at (%d, %d, %d)", block, x, y, z))
+        end
+    end
+
+    file:close()
 end
 
 
 
 builder.setInputFile("build-structure/input_.txt")
---readFileHeader()
-builder.build(0)
+builder.build(0, 0, 0, 0)
 
 
 
