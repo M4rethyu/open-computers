@@ -128,7 +128,7 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
         local layer_done = false
 
         -- read layer from bytes in file
-        local layer = {} -- x-z-layer
+        local layer = {} -- x-z-layer (indexed layer[z][x])
         local line = {}  -- x-line
         local bytes = file:read(num_bytes)
         local i = 0 -- count bytes, make new x-line after span_x bytes
@@ -151,7 +151,7 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
         z_structure = first_non_zero.z
 
         while not layer_done do
-            local index = layer[x_structure+1][z_structure+1] -- 0-indexed blocks vs 1-indexed arrays
+            local index = layer[z_structure+1][x_structure+1] -- 0-indexed blocks vs 1-indexed arrays
             local block = block_data[index]
 
 
@@ -160,9 +160,9 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
             if block == "minecraft:stone" then -- todo: select correct block type in inventory
                 robot_api.placeDown()
                 print(string.format("placing block '%s' at (%d, %d)", block, x_structure, z_structure))
-                layer[x_structure+1][z_structure+1] = 0 -- block has been placed so remove it from layer data
+                layer[z_structure+1][x_structure+1] = 0 -- block has been placed so remove it from layer data
             else
-                --print(string.format("doing nothing with block '%s' at (%d, %d)", tostring(block), x_structure, z_structure))
+                print(string.format("doing nothing with block '%s' at (%d, %d)", tostring(block), x_structure, z_structure))
             end
 
 
@@ -175,10 +175,10 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
                 r = r + 1
                 if r > max_r then -- or until all blocks checked (no more blocks need to be placed)
                     layer_done = true
-                    --print(string.format("done checking blocks around (%d, %d) because radius exceeded %d", x_structure, z_structure, max_r))
+                    print(string.format("done checking blocks around (%d, %d) because radius exceeded %d", x_structure, z_structure, max_r))
                     break
                 end
-                --print(string.format("checking blocks around (%d, %d) at radius %d", x_structure, z_structure, r))
+                print(string.format("checking blocks around (%d, %d) at radius %d", x_structure, z_structure, r))
 
                 -- make table of all points on a square of distance r around the point
                 local points = {}
@@ -193,7 +193,7 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
 
                 for _, point in ipairs(points) do
                     if (0 <= point.x and point.x <= meta_data.span_x - 1 and 0 <= point.z and point.z <= meta_data.span_z - 1) then -- check if point is within structure
-                        if layer[point.x+1][point.z+1] ~= 0 then -- check if placeable block at point
+                        if layer[point.z+1][point.x+1] ~= 0 then -- check if placeable block at point
                             new_point_found = true -- choose first point with placeable block as next block to be placed
                             x_structure = point.x
                             z_structure = point.z
@@ -204,21 +204,7 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
             end
         end
 
-        --[=[
-        local block
-        for z_structure_, line in ipairs(layer) do
-            z_structure_ = z_structure_ - 1
-            for x_structure_, n in ipairs(line) do
-                x_structure_ = x_structure_ - 1
-                block = block_data[n]
-                movement.moveTo(x_anchor + x_structure_, y_anchor + y_structure + 1 --[[+1 because robot places downwards]], z_anchor + z_structure_)
-                if block == "minecraft:stone" then
-                    robot_api.placeDown()
-                end
-                print(string.format("placing block '%s' at (%d, %d, %d)", block, x_structure_, y_structure, z_structure_))
-            end
-        end
-        ]=]
+
         y_structure = y_structure + 1
     end
 
@@ -227,8 +213,8 @@ end
 
 
 
-builder.setInputFile("build-structure/input_.txt")
-builder.build(0, 0, 0, 0)
+builder.setInputFile("build-structure/input.txt")
+--builder.build(0, 0, 0, 0)
 
 
 
