@@ -122,7 +122,7 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
     local bytes = file:read(num_bytes)
     local i = 0 -- count bytes, make new x-line after span_x bytes
     local first_non_zero -- remember first_non_zero element as starting point for placing blocks <-TODO
-    for b in string.gfind(bytes, ".") do
+    for b in string.gmatch(bytes, ".") do
         table.insert(line, string.byte(b))
         i = i + 1
         if i == meta_data.span_x then
