@@ -1,4 +1,6 @@
-
+local robot_api = require("robot")
+local movement = require("movement")
+local gps = require("gps")
 
 
 local builder = {}
@@ -112,9 +114,12 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
     end
     y_anchor = y_anchor + y_offset
 
+    -- track coordinates within structure space
+    local x_structure, y_structure, z_structure = 0, y_offset, 0
 
-    local x, y, z = 0, y_offset, 0
-
+    -- initialize coordinates of movement
+    local pose = gps.position()
+    movement.setPose(pose.x, pose.y, pose.z, pose.dir)
 
     -- read layer from bytes in file
     local layer = {} -- x-z-layer
@@ -140,13 +145,17 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
     end
 
     local block
-    for z, line in ipairs(layer) do
-        z = z - 1
-        for x, n in ipairs(line) do
-            x = x - 1
+    for z_structure, line in ipairs(layer) do
+        z_structure = z_structure - 1
+        for x_structure, n in ipairs(line) do
+            x_structure = x_structure - 1
             block = block_data[n]
             -- todo: move to (x, y+1, z) and place block below
-            print(string.format("placing block '%s' at (%d, %d, %d)", block, x, y, z))
+            movement.moveTo(x_anchor + x_structure, y_anchor + y_structure, z_anchor + z_structure)
+            if block == "minecraft:stone" then
+                robot_api.placeDown()
+            end
+            print(string.format("placing block '%s' at (%d, %d, %d)", block, x_structure, y_structure, z_structure))
         end
     end
 
