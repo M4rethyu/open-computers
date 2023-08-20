@@ -115,48 +115,53 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
     y_anchor = y_anchor + y_offset
 
     -- track coordinates within structure space
-    local x_structure, y_structure, z_structure = 0, y_offset, 0
+    local x_structure = 0
+    local y_structure = y_offset
+    local z_structure = 0
 
-    -- initialize coordinates of movement
+    -- initialize coordinates of movement lib
     local pose = gps.position()
     movement.setPose(pose.x, pose.y, pose.z, pose.dir)
 
-    -- read layer from bytes in file
-    local layer = {} -- x-z-layer
-    local line = {}  -- x-line
-    local bytes = file:read(num_bytes)
-    local i = 0 -- count bytes, make new x-line after span_x bytes
-    local first_non_zero -- remember first_non_zero element as starting point for placing blocks <-TODO
-    for b in string.gmatch(bytes, ".") do
-        table.insert(line, string.byte(b))
-        i = i + 1
-        if i == meta_data.span_x then
-            table.insert(layer, line)
-            line = {}
-            i = 0
-        end
-    end
-
-    for _, line in ipairs(layer) do
-        for _, n in ipairs(line) do
-            io.write(tostring(n).." ")
-        end
-        io.write("\n")
-    end
-
-    local block
-    for z_structure, line in ipairs(layer) do
-        z_structure = z_structure - 1
-        for x_structure, n in ipairs(line) do
-            x_structure = x_structure - 1
-            block = block_data[n]
-            -- todo: move to (x, y+1, z) and place block below
-            movement.moveTo(x_anchor + x_structure, y_anchor + y_structure, z_anchor + z_structure)
-            if block == "minecraft:stone" then
-                robot_api.placeDown()
+    while y_structure < meta_data.span_y do
+        -- read layer from bytes in file
+        local layer = {} -- x-z-layer
+        local line = {}  -- x-line
+        local bytes = file:read(num_bytes)
+        local i = 0 -- count bytes, make new x-line after span_x bytes
+        local first_non_zero -- remember first_non_zero element as starting point for placing blocks <-TODO
+        for b in string.gmatch(bytes, ".") do
+            table.insert(line, string.byte(b))
+            i = i + 1
+            if i == meta_data.span_x then
+                table.insert(layer, line)
+                line = {}
+                i = 0
             end
-            print(string.format("placing block '%s' at (%d, %d, %d)", block, x_structure, y_structure, z_structure))
         end
+
+        for _, line in ipairs(layer) do
+            for _, n in ipairs(line) do
+                io.write(tostring(n).." ")
+            end
+            io.write("\n")
+        end
+
+        local block
+        for z_structure, line in ipairs(layer) do
+            z_structure = z_structure - 1
+            for x_structure, n in ipairs(line) do
+                x_structure = x_structure - 1
+                block = block_data[n]
+                movement.moveTo(x_anchor + x_structure, y_anchor + y_structure, z_anchor + z_structure)
+                if block == "minecraft:stone" then
+                    robot_api.placeDown()
+                end
+                print(string.format("placing block '%s' at (%d, %d, %d)", block, x_structure, y_structure, z_structure))
+            end
+        end
+
+        y_structure = y_structure + 1
     end
 
     file:close()
@@ -165,7 +170,7 @@ end
 
 
 builder.setInputFile("build-structure/input_.txt")
-builder.build(0, 0, 0, 0)
+--builder.build(0, 0, 0, 0)
 
 
 
