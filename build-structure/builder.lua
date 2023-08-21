@@ -206,8 +206,8 @@ end
 
 
 
-builder.setInputFile("build-structure/input_.txt")
-builder.build(0, 0, 0, 0)
+builder.setInputFile("build-structure/input.txt")
+--builder.build(0, 0, 0, 0)
 
 
 
