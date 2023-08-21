@@ -14,8 +14,10 @@ local inventory = {}
 
 -- some block's items have the same id but can be distinguished by their label. this table translates those ids to labels
 inventory.special_blocks = {
+    ["minecraft:stone"] = {name = "minecraft:stone", label = "Stone"},
     ["minecraft:andesite"] = {name = "minecraft:stone", label = "Andesite"},
     ["minecraft:granite"] = {name = "minecraft:stone", label = "Granite"},
+
     ["minecraft:grass_block"] = {name = "minecraft:grass", label = nil},
 
     ["minecraft:oak_log"] = {name = "minecraft:log", label = "Oak Wood"},
