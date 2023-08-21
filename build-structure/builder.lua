@@ -217,7 +217,7 @@ end
 
 
 builder.setInputFile("build-structure/input.txt")
-builder.build(0, 0, 0, 0)
+--builder.build(0, 0, 0, 0)
 
 
 
