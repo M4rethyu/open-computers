@@ -122,8 +122,13 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
             end
         end
 
-        x_structure = first_non_zero.x
-        z_structure = first_non_zero.z
+        if not first_non_zero then
+            layer_done = true -- if no non-zero block has been found, there is nothing to do in this layer
+        else
+            x_structure = first_non_zero.x
+            z_structure = first_non_zero.z
+        end
+
 
         while not layer_done do
             local index = layer[z_structure+1][x_structure+1] -- 0-indexed blocks vs 1-indexed arrays
