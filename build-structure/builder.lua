@@ -1,36 +1,11 @@
 local robot_api = require("robot")
 local movement = require("movement")
 local gps = require("gps")
+local inventory = require("inventory")
 
 
 local builder = {}
 
--- see if the file exists
-function file_exists(file)
-    local f = io.open(file, "rb")
-    if f then f:close() end
-    return f ~= nil
-end
-
--- get all lines from a file, returns an empty
--- list/table if the file does not exist
-
-function lines_from(file)
-    if not file_exists(file) then return {} end
-    local lines = {}
-    for line in io.lines(file) do
-        lines[#lines + 1] = line
-    end
-    return lines
-end
-
-
--- tests the functions above
-
--- print all line numbers and their contents
---for k,v in pairs(lines) do
---  print('line[' .. k .. ']', v)
---end
 
 local file_path
 function builder.setInputFile(path)
@@ -157,8 +132,11 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
 
             --                                               +1 because robot places downwards
             movement.moveTo(x_anchor + x_structure, y_anchor + y_structure + 1, z_anchor + z_structure)
-            if block == "minecraft:stone" then -- todo: select correct block type in inventory
-                robot_api.placeDown()
+            if block ~= "minecraft:air" then
+                while not inventory.selectItem(block) do -- select slot with block
+                    inventory.restock(block) -- if block not in inventory, try restocking until block is in inventory
+                end
+                robot_api.placeDown() -- place selected block
                 print(string.format("placing block '%s' at (%d, %d)", block, x_structure, z_structure))
                 layer[z_structure+1][x_structure+1] = 0 -- block has been placed so remove it from layer data
             else
@@ -213,8 +191,8 @@ end
 
 
 
-builder.setInputFile("build-structure/input.txt")
---builder.build(0, 0, 0, 0)
+builder.setInputFile("build-structure/input_.txt")
+builder.build(0, 0, 0, 0)
 
 
 

@@ -35,7 +35,7 @@ function inventory.restock(name)
         robot_api.placeUp() -- place ender chest
 
         -- find first empty slot, or else the stack with the least items
-        local lowest_slot_count = 64
+        local lowest_slot_count = 1000
         local lowest_slot_index
         for i = 1, robot_api.inventorySize() do
             local stack = inventory_controller.getStackInInternalSlot(i)
@@ -57,7 +57,7 @@ function inventory.restock(name)
         end
 
         -- find needed item in ender chest
-        for i = 1, inventory_controller.getInventorySize() do
+        for i = 1, inventory_controller.getInventorySize(sides.top) do
             local stack = inventory_controller.getStackInSlot(sides.top, i)
             if stack and stack.name == name then
                 inventory_controller.suckFromSlot(sides.top, i, stack.size)
