@@ -146,7 +146,7 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
 
             -- find closest non-0 block to placed block
             local r = 0 -- radius from last placed block
-            local max_r = math.max(x_structure, meta_data.span_x - x_structure - 1, z_structure, meta_data.span_z - z_structure - 1) -- all blocks outside this radius are outside the structure
+            local max_r = 2*math.max(x_structure, meta_data.span_x - x_structure - 1, z_structure, meta_data.span_z - z_structure - 1) -- all blocks outside this radius are outside the structure
 
             local new_point_found = false
             while not new_point_found do -- loop until non-0 block found (place that block)
@@ -160,6 +160,7 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
 
                 -- make table of all points on a square of distance r around the point
                 local points = {}
+                --[[
                 for i = x_structure - r, x_structure + r do
                     table.insert(points, {x = i, z = z_structure + r})
                     table.insert(points, {x = i, z = z_structure - r})
@@ -167,6 +168,20 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
                 for i = z_structure - r + 1, z_structure + r - 1 do
                     table.insert(points, {x = x_structure + r, z = i})
                     table.insert(points, {x = x_structure - r, z = i})
+                end
+                ]]
+
+                for i = r, 0, -1 do
+                    table.insert(points, {x = x_structure + i, z = z_structure + r - i})
+                    table.insert(points, {x = x_structure + i, z = z_structure + i - r})
+                end
+                for i = -1, -r, -1 do
+                    table.insert(points, {x = x_structure + i, z = z_structure - i})
+                    table.insert(points, {x = x_structure + i, z = z_structure + i})
+                end
+
+                for _, point in ipairs(points) do
+                    print(string.format("point: (%d, %d)", point.x, point.z))
                 end
 
                 for _, point in ipairs(points) do
@@ -192,7 +207,7 @@ end
 
 
 builder.setInputFile("build-structure/input_.txt")
-builder.build(0, 0, 0, 0)
+--builder.build(0, 0, 0, 0)
 
 
 
