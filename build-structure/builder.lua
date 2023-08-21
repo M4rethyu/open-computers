@@ -45,7 +45,7 @@ local function readFileHeader()
     local line2 = f:read("*line")
     if string.match(line2, "^blockdata:") then
         file_block_data = {}
-        local match = string.gmatch(line2, "(%d+)=([a-z:]+)")
+        local match = string.gmatch(line2, "(%d+)=([a-z:_]+)")
         for num_id, block_id in match do
             file_block_data[tonumber(num_id)] = block_id
             print(num_id..": "..block_id)
