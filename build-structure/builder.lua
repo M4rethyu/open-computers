@@ -87,7 +87,7 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
     for i = 1, y_offset do
         file:read(num_bytes)
     end
-    y_anchor = y_anchor + y_offset
+    --y_anchor = y_anchor + y_offset
 
     -- track coordinates within structure space
     local x_structure = 0
