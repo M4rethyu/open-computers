@@ -173,11 +173,11 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
 
                 for i = r, 0, -1 do
                     table.insert(points, {x = x_structure + i, z = z_structure + r - i})
-                    table.insert(points, {x = x_structure + i, z = z_structure + i - r})
+                    table.insert(points, {x = x_structure + i, z = z_structure - r + i})
                 end
                 for i = -1, -r, -1 do
-                    table.insert(points, {x = x_structure + i, z = z_structure - i})
-                    table.insert(points, {x = x_structure + i, z = z_structure + i})
+                    table.insert(points, {x = x_structure + i, z = z_structure + r + i})
+                    table.insert(points, {x = x_structure + i, z = z_structure - r - i})
                 end
 
                 for _, point in ipairs(points) do
@@ -207,7 +207,7 @@ end
 
 
 builder.setInputFile("build-structure/input_.txt")
---builder.build(0, 0, 0, 0)
+builder.build(0, 0, 0, 0)
 
 
 
