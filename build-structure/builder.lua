@@ -195,10 +195,6 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
                 end
 
                 for _, point in ipairs(points) do
-                    print(string.format("point: (%d, %d)", point.x, point.z))
-                end
-
-                for _, point in ipairs(points) do
                     if (0 <= point.x and point.x <= meta_data.span_x - 1 and 0 <= point.z and point.z <= meta_data.span_z - 1) then -- check if point is within structure
                         if layer[point.z+1][point.x+1] ~= 0 then -- check if placeable block at point
                             new_point_found = true -- choose first point with placeable block as next block to be placed
@@ -221,7 +217,7 @@ end
 
 
 builder.setInputFile("build-structure/input.txt")
---builder.build(0, 0, 0, 0)
+builder.build(0, 0, 0, 0)
 
 
 
