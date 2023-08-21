@@ -138,6 +138,7 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
             --                                               +1 because robot places downwards
             movement.moveTo(x_anchor + x_structure, y_anchor + y_structure + 1, z_anchor + z_structure)
             if block ~= "minecraft:air" then
+                print(string.format("waiting for block '%s'...", block))
                 local s_block = inventory.special_blocks[block]
                 if s_block then -- block is a special block
                     while not inventory.selectItem(s_block.name, s_block.label) do -- select slot with block
