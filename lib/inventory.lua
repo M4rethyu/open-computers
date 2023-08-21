@@ -16,6 +16,7 @@ local inventory = {}
 inventory.special_blocks = {
     ["minecraft:andesite"] = {name = "minecraft:stone", label = "Andesite"},
     ["minecraft:granite"] = {name = "minecraft:stone", label = "Granite"},
+    ["minecraft:grass_block"] = {name = "minecraft:grass", label = nil},
 
     ["minecraft:oak_log"] = {name = "minecraft:log", label = "Oak Wood"},
     ["minecraft:spruce_log"] = {name = "minecraft:log", label = "Spruce Wood"},
