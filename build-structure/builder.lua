@@ -138,9 +138,17 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
             --                                               +1 because robot places downwards
             movement.moveTo(x_anchor + x_structure, y_anchor + y_structure + 1, z_anchor + z_structure)
             if block ~= "minecraft:air" then
-                while not inventory.selectItem(block) do -- select slot with block
-                    inventory.restock(block) -- if block not in inventory, try restocking until block is in inventory
+                local s_block = inventory.special_blocks[block]
+                if s_block then -- block is a special block
+                    while not inventory.selectItem(s_block.name, s_block.label) do -- select slot with block
+                        inventory.restock(s_block.name, s_block.label) -- if block not in inventory, try restocking until block is in inventory
+                    end
+                else
+                    while not inventory.selectItem(block) do -- select slot with block
+                        inventory.restock(block) -- if block not in inventory, try restocking until block is in inventory
+                    end
                 end
+
                 robot_api.placeDown() -- place selected block
                 print(string.format("placing block '%s' at (%d, %d)", block, x_structure, z_structure))
                 layer[z_structure+1][x_structure+1] = 0 -- block has been placed so remove it from layer data
