@@ -1,4 +1,5 @@
 local robot_api = require("robot")
+local computer = require("computer")
 local movement = require("movement")
 local gps = require("gps")
 local inventory = require("inventory")
