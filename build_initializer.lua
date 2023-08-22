@@ -14,7 +14,7 @@ local chunk_z = tonumber(args[2])]]
 local chunk_x, chunk_z, offset = ...
 
 chunk_x = tonumber(chunk_x)
-chunk_z = tonumber(chunk_x)
+chunk_z = tonumber(chunk_z)
 
 assert(chunk_x and chunk_z, "error: invalid chunk coordinates")
 
