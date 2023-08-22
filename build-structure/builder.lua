@@ -134,6 +134,8 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
             local index = layer[z_structure+1][x_structure+1] -- 0-indexed blocks vs 1-indexed arrays
             local block = block_data[index]
 
+            -- if energy low, wait until it isn't
+            while computer.energy() < 5000 do os.sleep(1) end
 
             --                                               +1 because robot places downwards
             movement.moveTo(x_anchor + x_structure, y_anchor + y_structure + 1, z_anchor + z_structure)
