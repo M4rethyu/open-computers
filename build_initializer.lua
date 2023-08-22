@@ -5,11 +5,6 @@ local inventory = require("inventory")
 
 local zero_coord = {x = 192, y = 0, z = 272} -- target world coordinates which are equivalent to the source world's 0,0,0
 
--- parse arguments and options given to program
---[[local args, ops = shell.parse(...)
-
-local chunk_x = tonumber(args[1])
-local chunk_z = tonumber(args[2])]]
 
 local chunk_x, chunk_z, offset = ...
 
@@ -27,7 +22,7 @@ else
 end
 
 
---[[ download relevant files from github
+-- download relevant files from github
 shell.execute('wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/build-structure/builder.lua" "/home/build-structure/builder.lua"')
 shell.execute('wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/lib/gps.lua" "/home/lib/gps.lua"')
 shell.execute('wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/lib/inventory.lua" "/home/lib/inventory.lua"')
@@ -43,11 +38,11 @@ while not inventory.selectItem("projecte:fuel_block", "Aeternalis Fuel Block") d
 end
 component.generator.insert()
 print("done")
-]]
+
 
 local x = zero_coord.x + 16*chunk_x
 local y = zero_coord.y
 local z = zero_coord.z + 16*chunk_z
 local builder = require("build-structure/builder")
-print(string.format("builder would now start building chunk (%d, %d) with anchorpoint (%d, %d, %d) and y-offset = %d", chunk_x, chunk_z, x, y, z, offset))
---builder.build(x, y, z, offset)
+print(string.format("builder will now build chunk (%d, %d) with anchorpoint (%d, %d, %d) and y-offset = %d", chunk_x, chunk_z, x, y, z, offset))
+builder.build(x, y, z, offset)
