@@ -3,7 +3,7 @@ local component = require("component")
 local inventory = require("inventory")
 
 
-local zero_coord = {x = 150, y = 0, z = 300} -- target world coordinates which are equivalent to the source world's 0,0,0
+local zero_coord = {x = 127, y = 0, z = 303} -- target world coordinates which are equivalent to the source world's 0,0,0
 
 -- parse arguments and options given to program
 local args, ops = shell.parse(...)
