@@ -61,7 +61,7 @@ local function readFileHeader()
 end
 
 
-function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layers until layer start_y (0 indexed)
+function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layers until layer y_offset (0 indexed)
     assert(type(x_anchor) == "number", "error: x must be an integer")
     x_anchor = math.floor(x_anchor)
     assert(type(y_anchor) == "number", "error: y must be an integer")

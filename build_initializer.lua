@@ -3,7 +3,7 @@ local component = require("component")
 local inventory = require("inventory")
 
 
-local zero_coord = {x = 127, y = 0, z = 303} -- target world coordinates which are equivalent to the source world's 0,0,0
+local zero_coord = {x = 112, y = 0, z = 288} -- target world coordinates which are equivalent to the source world's 0,0,0
 
 -- parse arguments and options given to program
 --[[local args, ops = shell.parse(...)
@@ -27,7 +27,7 @@ else
 end
 
 
--- download relevant files from github
+--[[ download relevant files from github
 shell.execute('wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/build-structure/builder.lua" "/home/build-structure/builder.lua"')
 shell.execute('wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/lib/gps.lua" "/home/lib/gps.lua"')
 shell.execute('wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/lib/inventory.lua" "/home/lib/inventory.lua"')
@@ -40,9 +40,10 @@ shell.execute(string.format(
 print("consuming fuel blocks...")
 while not inventory.selectItem("projecte:fuel_block", "Aeternalis Fuel Block") do -- select slot with block
     inventory.restock("projecte:fuel_block", "Aeternalis Fuel Block")
-    component.generator.insert()
 end
+component.generator.insert()
 print("done")
+]]
 
 local x = zero_coord.x + 16*chunk_x
 local y = zero_coord.y
