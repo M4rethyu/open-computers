@@ -6,16 +6,21 @@ local inventory = require("inventory")
 local zero_coord = {x = 127, y = 0, z = 303} -- target world coordinates which are equivalent to the source world's 0,0,0
 
 -- parse arguments and options given to program
-local args, ops = shell.parse(...)
+--[[local args, ops = shell.parse(...)
 
 local chunk_x = tonumber(args[1])
-local chunk_z = tonumber(args[2])
+local chunk_z = tonumber(args[2])]]
+
+local chunk_x, chunk_z, offset = ...
+
+chunk_x = tonumber(chunk_x)
+chunk_z = tonumber(chunk_x)
+
 assert(chunk_x and chunk_z, "error: invalid chunk coordinates")
 
 -- offset given by "--offset n"
-local offset
-if ops["offset"] then
-    offset = tonumber(ops["offset"])
+if offset then
+    offset = tonumber(offset)
     assert(offset, "error: invalid offset")
 else
     offset = 0
