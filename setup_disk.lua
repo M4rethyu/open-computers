@@ -53,6 +53,8 @@ function setup_disk.writeDisk()
     for address, _ in component.list("filesystem") do
         local proxy = component.proxy(address)
         local label = proxy.getLabel()
+        print(address)
+        print(label)
         if label == "OpenOS" then
         elseif label == "tmpfs" then
         elseif label == nil then
@@ -61,7 +63,7 @@ function setup_disk.writeDisk()
     end
 
 
-    local code = string.format("cp -r -v /* /%s/", string.sub(fs_target.address, 1, 3))
+    local code = string.format("cp -r -v /* /mnt/%s/", string.sub(fs_target.address, 1, 3))
     shell.execute(code)
 
     transposer.transferItem(computer_side, target_side, 1, computer_slot, target_slot) -- move written disk to target
