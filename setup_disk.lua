@@ -50,20 +50,22 @@ function setup_disk.writeDisk()
     transposer.transferItem(source_side, computer_side, 1, source_slot, computer_slot) -- move new disk from source to computer
 
     local fs_target
-    for address, _ in component.list("filesystem") do
-        local proxy = component.proxy(address)
-        local label = proxy.getLabel()
-        print(address)
-        print(label)
-        if label == "OpenOS" then
-        elseif label == "tmpfs" then
-        elseif label == nil then
-            fs_target = proxy
+    while not fs_target do
+        for address, _ in component.list("filesystem") do
+            local proxy = component.proxy(address)
+            local label = proxy.getLabel()
+            print(address)
+            print(label)
+            if label == "OpenOS" then
+            elseif label == "tmpfs" then
+            elseif label == nil then
+                fs_target = proxy
+            end
         end
     end
 
-
-    local code = string.format("cp -r -v /* /mnt/%s/", string.sub(fs_target.address, 1, 3))
+    -- cp -r -v /* /mnt/%s/ --exclude="/mnt/*" --exclude="/dev/*"
+    local code = string.format("cp -r -v /* /mnt/%s/ --exclude=\"/mnt/*\" --exclude=\"/dev/*\"", string.sub(fs_target.address, 1, 3))
     shell.execute(code)
 
     transposer.transferItem(computer_side, target_side, 1, computer_slot, target_slot) -- move written disk to target
