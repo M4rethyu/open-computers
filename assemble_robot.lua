@@ -13,9 +13,9 @@ if transposer == nil then
 end
 
 
-local source_sides = {}
-local assembler_side = nil
-local target_side = nil
+local source_sides = {sides.east, sides.south, sides.up}
+local assembler_side = sides.down
+local target_side = sides.west
 
 
 local assemble_robot = {}
