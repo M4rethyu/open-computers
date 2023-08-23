@@ -61,7 +61,7 @@ function setup_disk.writeDisk()
     end
 
 
-    local code = string.format("cp -r -v /* /%s/", string.sub(fs_target, 1, 3))
+    local code = string.format("cp -r -v /* /%s/", string.sub(fs_target.address, 1, 3))
     shell.execute(code)
 
     transposer.transferItem(computer_side, target_side, 1, computer_slot, target_slot) -- move written disk to target
@@ -72,6 +72,6 @@ function setup_disk.run()
     while setup_disk.writeDisk() do end
 end
 
-
+setup_disk.run()
 
 return setup_disk
