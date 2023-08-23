@@ -1,6 +1,7 @@
 local shell = require("shell")
 local component = require("component")
 local inventory = require("inventory")
+local movement = require("movement")
 
 
 local zero_coord = {x = 192, y = 0, z = 272} -- target world coordinates which are equivalent to the source world's 0,0,0
@@ -45,4 +46,14 @@ local y = zero_coord.y
 local z = zero_coord.z + 16*chunk_z
 local builder = require("build-structure/builder")
 print(string.format("builder will now build chunk (%d, %d) with anchorpoint (%d, %d, %d) and y-offset = %d", chunk_x, chunk_z, x, y, z, offset))
+
+-- go up until reaching skybox
+while movement.up() do end
+
 builder.build(x, y, z, offset)
+
+--return home
+local pose = movement.getPose()
+movement.moveTo(pose.x, 255, pose.z)
+movement.moveTo(-1282, 255, 283)
+movement.moveTo(-1282, 216, 283)
