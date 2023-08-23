@@ -15,9 +15,9 @@ end
 local setup_disk = {}
 
 
-local source_side = nil -- inventory containing disks
-local computer_side = nil -- computer
-local target_side = nil -- inventory receiving disks
+local source_side = sides.west -- inventory containing disks
+local computer_side = sides.east -- computer
+local target_side = sides.south -- inventory receiving disks
 
 function setup_disk.writeDisk()
     local source_slot
