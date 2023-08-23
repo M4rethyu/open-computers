@@ -25,7 +25,7 @@ function setup_disk.writeDisk()
     local target_slot
     for i = 1,transposer.getInventorySize(source_side) do
         local stack = transposer.getStackInSlot(source_side, i)
-        if stack.name == "opencomputers:storage" and stack.label == "Hard Disk Drive (Tier 3) (4MB)" then
+        if stack and stack.name == "opencomputers:storage" and stack.label == "Hard Disk Drive (Tier 3) (4MB)" then
             source_slot = i
             break
         end
@@ -64,6 +64,7 @@ function setup_disk.writeDisk()
         end
     end
 
+    os.sleep(1)
     -- cp -r -v /* /mnt/%s/ --exclude="/mnt/*" --exclude="/dev/*"
     local code = string.format("cp -r -v /* /mnt/%s/ --exclude=\"/mnt/*\" --exclude=\"/dev/*\"", string.sub(fs_target.address, 1, 3))
     shell.execute(code)
