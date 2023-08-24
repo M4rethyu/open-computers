@@ -22,6 +22,8 @@ function setup_robot.setup()
         return false
     end
 
+    robot.start()
+
     local enderchest_slot
     for i_slot, stack in ipairs(transposer.getAllStacks(enderchest_side)) do
         if stack and stack.name == "enderstorage:ender_storage" then
