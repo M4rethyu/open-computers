@@ -48,9 +48,12 @@ local components = {
 
 function assemble_robot.insert_components()
     for i_component, c in ipairs(components) do
+        print(string.format("inserting component %d : %s / %s", i_component, c.name, c.label))
         local stack = transposer.getStackInSlot(assembler_side, i_component)
-        if c.name == "minecraft:air" and c.name == "Air" then -- ignore if nothing needs to be in that slot
+        if c.name == "minecraft:air" then -- ignore if nothing needs to be in that slot
+            print("skipping air component...")
         elseif stack and stack.name == c.name and stack.label == c.label then -- ignore if that slot already has the correct item
+            print("component is already in assembled, skipping...")
         else
             local source_side
             local source_slot
@@ -96,5 +99,7 @@ function assemble_robot.build_robot()
         end
     end
 end
+
+assemble_robot.build_robot()
 
 return assemble_robot
