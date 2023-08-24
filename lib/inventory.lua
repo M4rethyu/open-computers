@@ -33,6 +33,10 @@ inventory.special_blocks = {
     ["minecraft:birch_leaves"] = {name = "minecraft:leaves", label = "Birch Leaves"},
 }
 
+function inventory.equip()
+    inventory_controller.equip()
+end
+
 function inventory.selectItem(name, label)
     assert(name or label, "at least one argument must be provided")
     for i = 1, robot_api.inventorySize() do

@@ -13,7 +13,7 @@ if transposer == nil then
 end
 
 
-local source_sides = {sides.east, sides.south, sides.up}
+local source_sides = {sides.south, sides.east, sides.up}
 local assembler_side = sides.down
 local target_side = sides.west
 
@@ -32,7 +32,7 @@ local components = {
     {name = "opencomputers:upgrade", label = "Hover Upgrade (Tier 2)"},
     {name = "opencomputers:upgrade", label = "Angel Upgrade"},
     {name = "opencomputers:upgrade", label = "Inventory Controller Upgrade"},
-    {name = "opencomputers:upgrade", label = "Battery Upgrade (Tier 1)"},
+    {name = "opencomputers:upgrade", label = "Inventory Upgrade"},
     {name = "opencomputers:keyboard", label = "Keyboard"},
     {name = "opencomputers:screen1", label = "Screen (Tier 1)"},
     {name = "minecraft:air", label = "Air"},--{name = "opencomputers:card", label = "Graphics Card (Tier 3)"},
@@ -47,6 +47,7 @@ local components = {
 }
 
 function assemble_robot.insert_components()
+    local success = true
     for i_component, c in ipairs(components) do
         print(string.format("inserting component %d : %s / %s", i_component, c.name, c.label))
         local stack = transposer.getStackInSlot(assembler_side, i_component)
@@ -57,10 +58,8 @@ function assemble_robot.insert_components()
         else
             local source_side
             local source_slot
-
             for _, side in ipairs(source_sides) do
-                for i_slot = 1, transposer.getInventorySize(side) do
-                    local stack = transposer.getStackInSlot(side, i_slot)
+                for i_slot, stack in ipairs(transposer.getAllStacks(side)) do
                     if stack and stack.name == c.name and stack.label == c.label then
                         source_side = side
                         source_slot = i_slot
@@ -72,14 +71,17 @@ function assemble_robot.insert_components()
                 transposer.transferItem(source_side, assembler_side, 1, source_slot, i_component)
             else
                 print(string.format("WARN: component %s / %s not found", c.name, c.label))
+                success = false
             end
         end
     end
+    return success
 end
 
 function assemble_robot.build_robot()
     if assemble_robot.insert_components() then
         if assembler.status() then
+            print("starting assembler...")
             assembler.start()
             while(assembler.status() == "busy") do end -- wait for assembler to finish
 
@@ -93,13 +95,17 @@ function assemble_robot.build_robot()
 
             if target_slot then
                 transposer.transferItem(assembler_side, target_side, 1, 1, target_slot)
+                return true
             else
                 print("no free slot in target inventory")
+                return false
             end
         end
+    else
+        return false
     end
 end
 
-assemble_robot.build_robot()
+while assemble_robot.build_robot() do end
 
 return assemble_robot

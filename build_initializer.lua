@@ -4,7 +4,7 @@ local inventory = require("inventory")
 local movement = require("movement")
 
 
-local zero_coord = {x = 192, y = 0, z = 272} -- target world coordinates which are equivalent to the source world's 0,0,0
+local zero_coord = {x = -1280 - 64, y = 0, z = 768 - 64} -- target world coordinates which are equivalent to the source world's 0,0,0
 
 
 local chunk_x, chunk_z, offset = ...
@@ -24,13 +24,21 @@ end
 
 
 -- download relevant files from github
-shell.execute('wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/build-structure/builder.lua" "/home/build-structure/builder.lua"')
-shell.execute('wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/lib/gps.lua" "/home/lib/gps.lua"')
-shell.execute('wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/lib/inventory.lua" "/home/lib/inventory.lua"')
-shell.execute('wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/lib/movement.lua" "/home/lib/movement.lua"')
+--shell.execute('wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/build-structure/builder.lua" "/home/build-structure/builder.lua"')
+--shell.execute('wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/lib/gps.lua" "/home/lib/gps.lua"')
+--shell.execute('wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/lib/inventory.lua" "/home/lib/inventory.lua"')
+--shell.execute('wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/lib/movement.lua" "/home/lib/movement.lua"')
 shell.execute(string.format(
               'wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/chunks/chunk_%d_%d.txt" "/home/build-structure/input.txt"', chunk_x, chunk_z))
 
+
+-- equip pickaxe
+print("equipping pickaxe...")
+while not inventory.selectItem("projecte:item.pe_rm_pick") do -- select slot with pick
+    inventory.restock("projecte:item.pe_rm_pick")
+end
+inventory.equip()
+print("done")
 
 -- put fuel into generator
 print("consuming fuel blocks...")
