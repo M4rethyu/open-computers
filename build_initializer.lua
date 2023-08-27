@@ -34,7 +34,7 @@ end
 shell.execute('edit build-structure/input.txt')
 
 
-if offset > 0 then
+if offset == 0 then
     -- equip pickaxe
     print("equipping pickaxe...")
     while not inventory.selectItem("projecte:item.pe_rm_pick") do -- select slot with pick
