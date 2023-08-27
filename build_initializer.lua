@@ -41,6 +41,7 @@ if offset == 0 then
         inventory.restock("projecte:item.pe_rm_pick")
     end
     inventory.equip()
+    robot_api.select(1)
     robot_api.swingUp()
     print("done")
 
