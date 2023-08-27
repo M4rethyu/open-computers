@@ -5,6 +5,42 @@ local gps = require("gps")
 local inventory = require("inventory")
 
 
+local default_meta_data = {
+    span_x = 16,
+    span_y = 16,
+    span_z = 16
+}
+
+local default_block_data = {
+	[0] = "minecraft:air",
+	[1] = "minecraft:stone",
+	[2] = "minecraft:andesite",
+	[3] = "minecraft:gravel",
+	[4] = "minecraft:coal",
+	[5] = "minecraft:coal",
+	[6] = "minecraft:iron",
+	[7] = "minecraft:dirt",
+	[8] = "minecraft:granite",
+	[9] = "minecraft:grass",
+	[10] = "minecraft:emerald",
+	[11] = "minecraft:lapis",
+	[12] = "minecraft:gold",
+	[13] = "minecraft:iron",
+	[14] = "minecraft:oak",
+	[15] = "minecraft:oak",
+	[16] = "minecraft:spruce",
+	[17] = "minecraft:spruce",
+	[18] = "minecraft:acacia",
+	[19] = "minecraft:acacia",
+	[20] = "minecraft:cobblestone",
+	[21] = "minecraft:diamond",
+	[22] = "minecraft:birch",
+	[23] = "minecraft:birch",
+	[24] = "minecraft:dark",
+	[25] = "minecraft:dark"
+}
+
+
 local builder = {}
 
 
@@ -71,15 +107,16 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
     y_offset = y_offset or 0
 
 
-    local meta_data, block_data = readFileHeader()
+    --local meta_data, block_data = readFileHeader()
+    local meta_data, block_data = default_meta_data, default_block_data -- for building chunk by chunk with predefined blocks, because max paste is 2^16 chars which is exactly the blocks in one chunk
     if not (meta_data and block_data) then return false end
     assert(y_offset < meta_data.span_y, "y_offset must be smaller than height (span_y) of structure")
 
     -- open file in binary read mode
-    local file = assert(io.open(file_path, "rb"))
+    local file = assert(io.open(file_path, "r"))
     -- skip header lines
-    file:read("*line")
-    file:read("*line")
+    --file:read("*line")
+    --file:read("*line")
 
     local file_index = 0 -- start indexing after header lines
     local num_bytes = meta_data.span_x*meta_data.span_z -- number of bytes per x-z-plane / y-level (one byte per block)
@@ -110,7 +147,7 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
         local i = 0 -- count bytes, make new x-line after span_x bytes
         local first_non_zero -- remember first_non_zero element as starting point for placing blocks
         for b in string.gmatch(bytes, ".") do
-            local n = string.byte(b)
+            local n = string.byte(b) - 0x41
             table.insert(line, n)
             if not first_non_zero and n ~= 0 then
                 first_non_zero = {x = i, z = #layer}

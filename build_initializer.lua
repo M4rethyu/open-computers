@@ -2,6 +2,7 @@ local shell = require("shell")
 local component = require("component")
 local inventory = require("inventory")
 local movement = require("movement")
+local robot_api = require("robot")
 
 
 local zero_coord = {x = -1280 - 64, y = 0, z = 768 - 64} -- target world coordinates which are equivalent to the source world's 0,0,0
@@ -38,6 +39,7 @@ while not inventory.selectItem("projecte:item.pe_rm_pick") do -- select slot wit
     inventory.restock("projecte:item.pe_rm_pick")
 end
 inventory.equip()
+robot_api.swingUp()
 print("done")
 
 -- put fuel into generator
