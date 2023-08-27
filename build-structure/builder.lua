@@ -7,7 +7,7 @@ local inventory = require("inventory")
 
 local default_meta_data = {
     span_x = 16,
-    span_y = 16,
+    span_y = 256,
     span_z = 16
 }
 
