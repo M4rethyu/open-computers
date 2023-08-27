@@ -29,8 +29,10 @@ end
 --shell.execute('wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/lib/gps.lua" "/home/lib/gps.lua"')
 --shell.execute('wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/lib/inventory.lua" "/home/lib/inventory.lua"')
 --shell.execute('wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/lib/movement.lua" "/home/lib/movement.lua"')
-shell.execute(string.format(
-              'wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/chunks/chunk_%d_%d.txt" "/home/build-structure/input.txt"', chunk_x, chunk_z))
+--shell.execute(string.format(
+--              'wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/chunks/chunk_%d_%d.txt" "/home/build-structure/input.txt"', chunk_x, chunk_z))
+shell.execute('edit build-structure/input.txt')
+
 
 if offset > 0 then
     -- equip pickaxe
