@@ -32,23 +32,24 @@ end
 shell.execute(string.format(
               'wget -f "https://raw.githubusercontent.com/M4rethyu/open-computers/master/chunks/chunk_%d_%d.txt" "/home/build-structure/input.txt"', chunk_x, chunk_z))
 
+if offset > 0 then
+    -- equip pickaxe
+    print("equipping pickaxe...")
+    while not inventory.selectItem("projecte:item.pe_rm_pick") do -- select slot with pick
+        inventory.restock("projecte:item.pe_rm_pick")
+    end
+    inventory.equip()
+    robot_api.swingUp()
+    print("done")
 
--- equip pickaxe
-print("equipping pickaxe...")
-while not inventory.selectItem("projecte:item.pe_rm_pick") do -- select slot with pick
-    inventory.restock("projecte:item.pe_rm_pick")
+    -- put fuel into generator
+    print("consuming fuel blocks...")
+    while not inventory.selectItem("projecte:fuel_block", "Aeternalis Fuel Block") do -- select slot with block
+        inventory.restock("projecte:fuel_block", "Aeternalis Fuel Block")
+    end
+    component.generator.insert()
+    print("done")
 end
-inventory.equip()
-robot_api.swingUp()
-print("done")
-
--- put fuel into generator
-print("consuming fuel blocks...")
-while not inventory.selectItem("projecte:fuel_block", "Aeternalis Fuel Block") do -- select slot with block
-    inventory.restock("projecte:fuel_block", "Aeternalis Fuel Block")
-end
-component.generator.insert()
-print("done")
 
 
 local x = zero_coord.x + 16*chunk_x
