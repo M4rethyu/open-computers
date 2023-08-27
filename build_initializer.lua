@@ -66,5 +66,4 @@ builder.build(x, y, z, offset)
 --return home
 local pose = movement.getPose()
 movement.moveTo(pose.x, 255, pose.z)
-movement.moveTo(-1282, 255, 283)
-movement.moveTo(-1282, 216, 283)
+movement.moveTo(zero_coord.x, 255, zero_coord.z)

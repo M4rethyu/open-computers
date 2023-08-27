@@ -118,7 +118,6 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
     --file:read("*line")
     --file:read("*line")
 
-    local file_index = 0 -- start indexing after header lines
     local num_bytes = meta_data.span_x*meta_data.span_z -- number of bytes per x-z-plane / y-level (one byte per block)
 
     -- compensate for y_offset by skipping bytes in file and adjusting y
@@ -173,7 +172,7 @@ function builder.build(x_anchor, y_anchor, z_anchor, y_offset) -- skip all layer
             local block = block_data[index]
 
             -- if energy low, wait until it isn't
-            while computer.energy() < 5000 do os.sleep(1) end
+            while computer.energy() < 5000 do os.sleep(5) end
 
             --                                               +1 because robot places downwards
             movement.moveTo(x_anchor + x_structure, y_anchor + y_structure + 1, z_anchor + z_structure)
